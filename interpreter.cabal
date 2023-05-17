@@ -1,0 +1,17 @@
+cabal-version:      2.4
+name:               my-cabal-pkg
+version:            0.1.0.0
+author:             FaydSpeare
+maintainer:         faydspeare@gmail.com
+
+executable my-cabal-pkg
+    main-is:          Main.hs
+
+    other-modules:
+        Lexer
+        Token
+        Ast
+
+    build-depends:    base ^>=4.16.4.0
+    hs-source-dirs:   app
+    default-language: Haskell2010
