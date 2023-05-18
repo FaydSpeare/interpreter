@@ -26,8 +26,9 @@ prefixPrec = 3
 
 prec :: TokenType -> Int
 prec LBRAC = 1000
+prec DORKA = 1
 prec MUL = 2
-prec DIV = 2
+prec DIV = 3
 prec MINUS = 1
 prec PLUS = 1
 prec _ = 0

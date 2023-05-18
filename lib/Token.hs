@@ -8,6 +8,7 @@ data TokenType = INT
                | MINUS 
                | DIV
                | MUL
+               | DORKA
                | PLUS
                | LBRAC
                | RBRAC

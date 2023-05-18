@@ -36,6 +36,7 @@ parseToken string
     | c == '+'   = (Token PLUS s, 1)
     | c == '/'   = (Token DIV s, 1)
     | c == 'x'   = (Token MUL s, 1)
+    | c == '$'   = (Token DORKA s, 1)
     | c == '='   = (Token ASSIGN s, 1)
     | c == '('   = (Token LBRAC s, 1)
     | c == ')'   = (Token RBRAC s, 1)

@@ -1,18 +1,28 @@
 cabal-version:      2.4
-name:               my-cabal-pkg
+name:               interpreter
 version:            0.1.0.0
 author:             FaydSpeare
 maintainer:         faydspeare@gmail.com
 
-executable my-cabal-pkg
-    main-is:          Main.hs
-
-    other-modules:
+library
+    exposed-modules: 
         Lexer
         Token
         Ast
         Parser
+    build-depends: base >=4.16.4.0
+    hs-source-dirs: lib
+    default-language: Haskell2010
 
-    build-depends:    base ^>=4.16.4.0
+executable interpreter
+    main-is:          Main.hs
+    build-depends:    base ^>=4.16.4.0, interpreter
     hs-source-dirs:   app
+    default-language: Haskell2010
+
+test-suite tests
+    type: exitcode-stdio-1.0
+    main-is: Main.hs
+    build-depends: base ^>=4.16.4.0, HUnit ^>=1.6, interpreter
+    hs-source-dirs: tests
     default-language: Haskell2010
