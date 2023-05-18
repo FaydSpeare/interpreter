@@ -32,9 +32,13 @@ parseInt str =
 parseToken :: String -> (Token, Int)
 parseToken string
     | c == ' '   = (Token SPACE s, 1)
+    | c == '-'   = (Token MINUS s, 1)
     | c == '+'   = (Token PLUS s, 1)
+    | c == '/'   = (Token DIV s, 1)
     | c == 'x'   = (Token MUL s, 1)
     | c == '='   = (Token ASSIGN s, 1)
+    | c == '('   = (Token LBRAC s, 1)
+    | c == ')'   = (Token RBRAC s, 1)
     | isDigit c  = parseInt string 
     | isLetter c = parseIdent string 
     | otherwise  = (Token UNDEFINED s, 1)
@@ -43,8 +47,36 @@ parseToken string
 
 parseTokens :: String -> [Token]
 parseTokens string 
-    | length string <= 0 = [Token EOF ""]
+    | null string = [Token EOF ""]
     | otherwise          = token : parseTokens nextString
         where (token, len) = parseToken string
               nextString   = drop len string
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

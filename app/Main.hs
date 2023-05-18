@@ -4,6 +4,7 @@ import System.IO
 import Control.Monad (forever)
 
 import Lexer
+import Parser
 
 main :: IO ()
 main = do
@@ -18,5 +19,6 @@ inputLoop :: IO ()
 inputLoop = forever $ do
     putStr ">> "
     a <- getLine
-    mapM_ (putStrLn . show) $ parseTokens a
+    mapM_ (putStrLn . show) (parseTokens a)
+    mapM_ (putStrLn . nodeString) [parseRoot (parseTokens a)]
     putStrLn ""

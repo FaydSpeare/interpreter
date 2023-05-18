@@ -11,6 +11,7 @@ executable my-cabal-pkg
         Lexer
         Token
         Ast
+        Parser
 
     build-depends:    base ^>=4.16.4.0
     hs-source-dirs:   app
