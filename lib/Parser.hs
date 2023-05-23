@@ -1,40 +1,29 @@
 module Parser where
 
-import Text.Printf
-
+import Ast
 import Token
 
 type Prec = Int
-type Operator = String
-type Value = String
-type Name = String
-
-data Node = IntLiteral Value
-          | Identifier Name
-          | InfixExpression Node Operator Node
-          | PrefixExpression Operator Node
-          | Undefined deriving (Show)
-
-nodeString :: Node -> String
-nodeString (IntLiteral v) = v
-nodeString (Identifier n) = n
-nodeString Undefined = "undefined"
-nodeString (PrefixExpression o n) = printf "(%s%s)" o (nodeString n)
-nodeString (InfixExpression l o r) = printf "(%s %s %s)" (nodeString l) o (nodeString r)
 
 prefixPrec = 3
 
 prec :: TokenType -> Int
 prec LBRAC = 1000
-prec DORKA = 1
-prec MUL = 2
+prec POW = 5
+prec DORKA = 4
+prec MUL = 3
 prec DIV = 3
-prec MINUS = 1
-prec PLUS = 1
+prec MINUS = 2
+prec PLUS = 2
+prec ASSIGN = 1
 prec _ = 0
 
 parseMinusPrefix :: [Token] -> (Node, [Token])
 parseMinusPrefix tokens = (PrefixExpression "-" node, rest) 
+    where (node, rest) = parseExpression prefixPrec tokens
+
+parseSqrtPrefix :: [Token] -> (Node, [Token])
+parseSqrtPrefix tokens = (PrefixExpression "$" node, rest) 
     where (node, rest) = parseExpression prefixPrec tokens
 
 parseGroupedExp :: [Token] -> (Node, [Token])
@@ -44,6 +33,7 @@ parseGroupedExp tokens = (if valid then node else Undefined, rest)
 
 parsePrefixExpression :: [Token] -> (Node, [Token])
 parsePrefixExpression ((Token t literal):tokens) = case t of
+    DORKA -> parseSqrtPrefix tokens
     INT   -> (IntLiteral literal, tokens)
     IDENT -> (Identifier literal, tokens)
     LBRAC -> parseGroupedExp tokens
@@ -65,11 +55,13 @@ parseExpression :: Prec -> [Token] -> (Node, [Token])
 parseExpression p tokens = recurseInfix p rest left
     where (left, rest) = parsePrefixExpression tokens
 
-parseRoot :: [Token] -> Node
-parseRoot [] = Undefined
-parseRoot [Token EOF _] = Undefined
-parseRoot tokens = fst . parseExpression 0 . filter (\(Token t l) -> t /= SPACE) $ tokens
-
+parseRoot :: [Token] -> [Node]
+parseRoot [] = []
+parseRoot [Token EOF _] = []
+parseRoot ((Token SEMIC _):tokens) = parseRoot tokens
+parseRoot tokens = node : parseRoot rest 
+    where tokens' = filter (\(Token t l) -> t /= SPACE) tokens
+          (node, rest) = parseExpression 0 tokens'
 
 
 

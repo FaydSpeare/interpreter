@@ -10,6 +10,7 @@ library
         Token
         Ast
         Parser
+        Evaluator
     build-depends: base >=4.16.4.0
     hs-source-dirs: lib
     default-language: Haskell2010
@@ -23,6 +24,10 @@ executable interpreter
 test-suite tests
     type: exitcode-stdio-1.0
     main-is: Main.hs
-    build-depends: base ^>=4.16.4.0, HUnit ^>=1.6, interpreter
+    build-depends: 
+          base ^>= 4.16.4.0
+        , tasty >= 0.7
+        , tasty-hunit >= 0.10
+        , interpreter
     hs-source-dirs: tests
     default-language: Haskell2010

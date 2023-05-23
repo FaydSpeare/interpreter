@@ -12,6 +12,8 @@ data TokenType = INT
                | PLUS
                | LBRAC
                | RBRAC
+               | SEMIC
+               | POW
                | UNDEFINED
                | SPACE
                | INVALID

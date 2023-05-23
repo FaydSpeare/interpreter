@@ -1,7 +1,22 @@
 module Main where
 
-import System.Exit (exitFailure)
+import Test.Tasty
+import Test.Tasty.HUnit
 
-main = do
-    putStrLn "This test always fails!"
-    exitFailure
+import Lexer
+import Token
+
+main = defaultMain tests
+
+testParseIdent :: String -> String -> Assertion
+testParseIdent a b = assertEqual (a++b) a' b'
+    where (a', _) = parseIdent a
+          b'      = Token IDENT b
+
+tests :: TestTree
+tests = testGroup "Lexer tests"
+    [ testCase "parse identifier" $
+        testParseIdent "var" "var"
+    , testCase "parse identifier"  $
+        testParseIdent "varA" "varA" 
+    ]

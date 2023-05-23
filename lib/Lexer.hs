@@ -40,6 +40,8 @@ parseToken string
     | c == '='   = (Token ASSIGN s, 1)
     | c == '('   = (Token LBRAC s, 1)
     | c == ')'   = (Token RBRAC s, 1)
+    | c == ';'   = (Token SEMIC s, 1)
+    | c == '^'   = (Token POW s, 1)
     | isDigit c  = parseInt string 
     | isLetter c = parseIdent string 
     | otherwise  = (Token UNDEFINED s, 1)
